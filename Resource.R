@@ -69,90 +69,13 @@ eland$Tourism_footprint<- (Tourism_footprint-mean(Tourism_footprint))/sd(Tourism
 eland$Heap.dung<-(Heap.dung-mean(Heap.dung))/sd(Heap.dung)
 eland$Escape.impediment<-(Escape.impediment-mean(Escape.impediment))/sd(Escape.impediment)
 
-#####################Model selection ###############################
+##################### Resource selection modelling###############################
 
-#Global model
 M1<-clogit(Use~D_forbs + Vegetation.cover + Vegetation.biomass + 
              Heap.dung + Escape.impediment+ protection_gradient + Proximity_road + 
              Proximity_river + dist_Pasedges + Tourism_footprint + Micro.habitat.type + 
              slope + TWI + I(Tourism_footprint^2)+ I(Vegetation.biomass^2)+ cluster(Animal_ID)+ 
              strata(Season), method = "approximate")
-
-#M2
-M2<-clogit(Use~D_forbs + Vegetation.cover + Vegetation.biomass + 
-             Heap.dung + Escape.impediment+ protection_gradient + Proximity_road + 
-             Proximity_river + Vegetation.biomass*Proximity_river + dist_Pasedges + 
-             Tourism_footprint + Micro.habitat.type + slope + TWI+ cluster(Animal_ID)+
-             strata(Season), method = "approximate")
-#M3
-M3<-clogit(Use~D_forbs + Vegetation.cover + Vegetation.biomass + 
-             Heap.dung + Escape.impediment+ protection_gradient + Proximity_road + 
-             Proximity_river + dist_Pasedges + Tourism_footprint + Micro.habitat.type + 
-             Vegetation.cover*Vegetation.biomass + slope + TWI+ cluster(Animal_ID)+
-             strata(Season), method = "approximate")
-#M4
-M4<-clogit(Use~Vegetation.cover + Vegetation.biomass +
-             Heap.dung + Escape.impediment+ protection_gradient + Proximity_road + 
-             Proximity_river +  dist_Pasedges + Tourism_footprint + Micro.habitat.type + 
-             slope + TWI+ cluster(Animal_ID)+ strata(Season), method = "approximate")
-#M5
-M5<-clogit(Use~ Vegetation.biomass + Heap.dung + Escape.impediment+ 
-             protection_gradient + Proximity_road + Proximity_river + 
-             dist_Pasedges + Tourism_footprint + Micro.habitat.type +
-             slope + TWI+ cluster(Animal_ID)+ strata(Season), method = "approximate")
-#M6
-M6<-clogit(Use~ Heap.dung + Escape.impediment+ protection_gradient + Proximity_road + 
-          Proximity_river +  dist_Pasedges + Tourism_footprint + Micro.habitat.type + 
-         slope + TWI+ cluster(Animal_ID)+ strata(Season), 
-           method = "approximate")
-#M7
-M7<-clogit(Use~ Heap.dung + Escape.impediment+ protection_gradient + Proximity_road + 
-             Proximity_river + dist_Pasedges + Tourism_footprint + Micro.habitat.type + 
-             slope + TWI+ cluster(Animal_ID)+ strata(Season), method = "approximate")
-#M8
-M8<-clogit(Use~Escape.impediment+ protection_gradient + Proximity_road + 
-             Proximity_river + dist_Pasedges + Tourism_footprint + Micro.habitat.type + 
-             slope + TWI+ cluster(Animal_ID)+ strata(Season), method = "approximate")
-
-#M9
-M9<-clogit(Use~ protection_gradient + Proximity_road + Proximity_river + 
-              dist_Pasedges +Tourism_footprint + Micro.habitat.type + slope + TWI+ 
-             cluster(Animal_ID)+ strata(Season), method = "approximate")
-
-#M10
-M10<-clogit(Use~ Proximity_road + Proximity_river + dist_Pasedges + 
-             Tourism_footprint + Micro.habitat.type + slope + TWI+ cluster(Animal_ID)+ 
-              strata(Season), method = "approximate")
-#M11
-M11<-clogit(Use~Proximity_river + dist_Pasedges + Tourism_footprint + Micro.habitat.type + 
-             slope + TWI+ cluster(Animal_ID)+ strata(Season), method = "approximate")
-
-#M12
-M12<-clogit(Use~ dist_Pasedges + Tourism_footprint + Micro.habitat.type + 
-             slope + TWI+ cluster(Animal_ID)+ strata(Season), method = "approximate")
-
-#M13
-M13<-clogit(Use~ Tourism_footprint + Micro.habitat.type + 
-            slope + TWI+ cluster(Animal_ID)+ strata(Season), method = "approximate")
-
-#M14
-M14<-clogit(Use~ Micro.habitat.type + slope + TWI+ 
-            cluster(Animal_ID)+ strata(Season), method = "approximate")
-
-#M15
-M15<-clogit(Use~ slope + TWI+ cluster(Animal_ID)+ strata(Season), method = "approximate")
-
-#M16
-M16<-clogit(Use~TWI+ cluster(Animal_ID)+ strata(Season), method = "approximate")
-
-#Null
-M17<-clogit(Use~ 1 + cluster(Animal_ID)+ strata(Season), method = "approximate")
-
-best_model<-list(M1,M2,M3,M4,M5,M6,M7,M8,M9,M10,M11,M12,M13,M14,
-                 M15,M16,M17)
-print(as.data.frame(aictab(best_model,sort=T)))# 
-##The model selection seems not to work because it turns out that
-## null model is the best model,therefore am proceeding with global model
 summary(M1)
 
 ######################## Plotting ##############################
